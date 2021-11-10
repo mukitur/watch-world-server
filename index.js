@@ -32,6 +32,13 @@ async function run() {
             const result = await cursor.toArray();
             res.send(result);
         });
+        //Home page product shows
+        app.get('/products/home', async (req, res) =>{
+            const cursor = productsCollection.find({}).limit(6);
+            const result = await cursor.toArray();
+            res.send(result);
+        });
+        
         //POST Products
         app.post('/products', async (req, res) =>{
             const products = req.body;
