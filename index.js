@@ -5,6 +5,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 const { MongoClient } = require('mongodb');
+const ObjectId = require('mongodb').ObjectId;
 
 const port = process.env.PORT || 8000
 
@@ -25,20 +26,28 @@ async function run() {
 
         const database = client.db("WatchWorld");
         const productsCollection = database.collection("products");
-
+        
         //Get Products
         app.get('/products', async (req, res) =>{
             const cursor = productsCollection.find({});
             const result = await cursor.toArray();
             res.send(result);
         });
+        
+        /* //Get single product details
+        app.get('/products/:id', async(req, res)=>{
+            const id= req.params.id;
+           const query = {_id:ObjectId(id)};
+           const product = await productsCollection.findOne(query);
+            res.json(product);
+        }); */
         //Home page product shows
         app.get('/products/home', async (req, res) =>{
             const cursor = productsCollection.find({}).limit(6);
             const result = await cursor.toArray();
             res.send(result);
         });
-        
+
         //POST Products
         app.post('/products', async (req, res) =>{
             const products = req.body;
