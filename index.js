@@ -49,7 +49,12 @@ async function run() {
             const result = await cursor.toArray();
             res.send(result);
         });
-
+        //Get Orders
+        app.get('/orders', async (req, res) =>{
+            const cursor = ordersCollection.find({});
+            const result = await cursor.toArray();
+            res.send(result);
+        });
         //POST Products
         app.post('/products', async (req, res) =>{
             const products = req.body;
