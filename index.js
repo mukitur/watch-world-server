@@ -27,6 +27,7 @@ async function run() {
         const database = client.db("WatchWorld");
         const productsCollection = database.collection("products");
         const ordersCollection = database.collection("orders");
+        const reviewsCollection = database.collection("reviews");
         
         //Get Products
         app.get('/products', async (req, res) =>{
@@ -55,6 +56,12 @@ async function run() {
             const result = await cursor.toArray();
             res.send(result);
         });
+        //Get Rewiews
+        app.get('/reviews', async (req, res) =>{
+            const cursor = reviewsCollection.find({});
+            const result = await cursor.toArray();
+            res.send(result);
+        });
         //POST Products
         app.post('/products', async (req, res) =>{
             const products = req.body;
@@ -66,6 +73,13 @@ async function run() {
         app.post('/orders', async (req, res) =>{
             const order = req.body;
             const result = await ordersCollection.insertOne(order);
+            //console.log(result);
+            res.send(result)
+        });
+        //POST Reviews
+        app.post('/reviews', async (req, res) =>{
+            const review = req.body;
+            const result = await reviewsCollection.insertOne(review);
             console.log(result);
             res.send(result)
         });
