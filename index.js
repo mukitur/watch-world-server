@@ -15,7 +15,7 @@ app.use(express.json())
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.adlv3.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-console.log(uri)
+
 
 //Main Function start
 
@@ -26,6 +26,7 @@ async function run() {
 
         const database = client.db("WatchWorld");
         const productsCollection = database.collection("products");
+        const ordersCollection = database.collection("orders");
         
         //Get Products
         app.get('/products', async (req, res) =>{
@@ -34,13 +35,14 @@ async function run() {
             res.send(result);
         });
         
-        //Get single product details
-        app.get('/products/:id', async(req, res)=>{
+       //Get single product details
+        app.get('/shopping/:id', async(req, res)=>{
             const id= req.params.id;
            const query = {_id:ObjectId(id)};
-           const product = await productsCollection.findOne(query);
-            res.json(product);
-        });
+           const sproduct = await productsCollection.findOne(query);
+            res.json(sproduct);
+        }); 
+        
         //Home page product shows
         app.get('/products/home', async (req, res) =>{
             const cursor = productsCollection.find({}).limit(6);
@@ -52,6 +54,13 @@ async function run() {
         app.post('/products', async (req, res) =>{
             const products = req.body;
             const result = await productsCollection.insertOne(products);
+           // console.log(result);
+            res.send(result)
+        });
+        //POST Orders
+        app.post('/orders', async (req, res) =>{
+            const order = req.body;
+            const result = await ordersCollection.insertOne(order);
             console.log(result);
             res.send(result)
         });
