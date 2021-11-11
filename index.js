@@ -93,7 +93,9 @@ async function run() {
 app.get('/', (req, res) => {
   res.send('Watch world server is running!')
 })
-
+app.get ('/hello', (req, res) =>{
+    res.send('hrkoku server running');
+}) 
 app.listen(port, () => {
   console.log(`Listening at ${port}`)
 })
