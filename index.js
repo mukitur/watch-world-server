@@ -34,13 +34,13 @@ async function run() {
             res.send(result);
         });
         
-        /* //Get single product details
+        //Get single product details
         app.get('/products/:id', async(req, res)=>{
             const id= req.params.id;
            const query = {_id:ObjectId(id)};
            const product = await productsCollection.findOne(query);
             res.json(product);
-        }); */
+        });
         //Home page product shows
         app.get('/products/home', async (req, res) =>{
             const cursor = productsCollection.find({}).limit(6);
