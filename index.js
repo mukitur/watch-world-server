@@ -100,7 +100,14 @@ async function run() {
             const updateDoc = {$set: user};
             const result = await usersCollection.updateOne(filter,updateDoc, options);
             res.json(result);
-
+        });
+        //PUT method for Make Admin
+        app.put('/users/admin', async (req, res) =>{
+            const user = req.body;
+            const filter = {email: user.email};
+            const updateDoc = {$set: {role: 'admin'}};
+            const result = await usersCollection.updateOne(filter,updateDoc);
+            res.json(result);
         });
 
         //POST Registered Users for email/password
