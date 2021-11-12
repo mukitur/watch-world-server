@@ -28,6 +28,8 @@ async function run() {
         const productsCollection = database.collection("products");
         const ordersCollection = database.collection("orders");
         const reviewsCollection = database.collection("reviews");
+        const usersCollection = database.collection("users");
+
         
         //Get Products
         app.get('/products', async (req, res) =>{
@@ -80,16 +82,21 @@ async function run() {
         app.post('/reviews', async (req, res) =>{
             const review = req.body;
             const result = await reviewsCollection.insertOne(review);
-            console.log(result);
             res.send(result)
         });
         // DELETE Orders
         app.delete('/orders/:id', async (req, res) => {
             const id = req.params.id;
-            console.log(id)
             const query = { _id:ObjectId(id) };
             const result = await ordersCollection.deleteOne(query);
             res.json(result);
+        });
+        //POST Registered Users
+        app.post('/users', async (req, res) =>{
+            const user = req.body;
+            const result = await usersCollection.insertOne(user);
+            console.log(result);
+            res.send(result)
         });
 
     }finally {
