@@ -104,6 +104,13 @@ async function run() {
             const result = await ordersCollection.deleteOne(query);
             res.json(result);
         });
+        // DELETE Products
+        app.delete('/products/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id:ObjectId(id) };
+            const result = await productsCollection.deleteOne(query);
+            res.json(result);
+        });
 
         //PUT method for google registered user
         app.put('/users', async (req, res) =>{
