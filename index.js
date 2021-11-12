@@ -91,7 +91,19 @@ async function run() {
             const result = await ordersCollection.deleteOne(query);
             res.json(result);
         });
-        //POST Registered Users
+
+        //PUT method for google registered user
+        app.put('/users', async (req, res) =>{
+            const user = req.body;
+            const filter = {email: user.email};
+            const options = {upsert: true};
+            const updateDoc = {$set: user};
+            const result = await usersCollection.updateOne(filter,updateDoc, options);
+            res.json(result);
+
+        });
+
+        //POST Registered Users for email/password
         app.post('/users', async (req, res) =>{
             const user = req.body;
             const result = await usersCollection.insertOne(user);
